@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 from app.routers.alimentadores import get_service
@@ -9,12 +10,17 @@ class Fake:
     def get_sub(self,c): return None if c.upper()!="TEST01" else {"type":"FeatureCollection","features":[]}
     def get_geojson_bundle(self,c): return None if c.upper()!="TEST01" else {"alimentador":"TEST01","crs":"EPSG:4326","subestacao":{},"faseamentos":["ABC"],"ssdmt":self.get_ssdmt(c),"sub":self.get_sub(c)}
 
-app.dependency_overrides[get_service] = lambda: Fake()
 client = TestClient(app)
+
+@pytest.fixture(autouse=True)
+def fake_feeder_service():
+    app.dependency_overrides[get_service] = lambda: Fake()
+    yield
+    app.dependency_overrides.pop(get_service, None)
 
 def test_root():
     data = client.get("/").json()
-    assert data["version"] == "v7"
+    assert data["version"] == "app-0.1"
     assert data["map"] == "/map"
 
 def test_list(): assert client.get("/alimentadores").status_code == 200
