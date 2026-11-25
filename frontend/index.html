@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09223b">
+<title>Campinas Energy App | Geographic Studies</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.6.1/ol.css">
+<link rel="stylesheet" href="/app/styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/ol@10.6.1/dist/ol.js"></script>
+<script defer src="/app/app.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="bolt">⚡</div><div><strong>Campinas Energy <span>App</span></strong><small>Geospatial Connection Studies · Independent Application</small></div></div>
+  <div class="top-right"><span class="tag">Synthetic demonstration</span><span id="api-status" class="status-pill">API checking</span></div>
+</header>
+<main>
+<aside class="sidebar">
+  <section class="panel">
+    <div class="eyebrow">01 / NETWORK</div>
+    <h2>Choose a network</h2>
+    <label for="feeder">Fictional feeder</label>
+    <select id="feeder"><option value="">Loading...</option></select>
+    <p class="hint">The network geometry is displayed as a blue line over the OpenStreetMap basemap.</p>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">02 / LOCATION</div>
+    <h2>Select a connection point</h2>
+    <p class="hint">Click on the map to select a geographic point, then calculate the nearest connection along the chosen network.</p>
+    <div id="selected-coordinates" class="coordinates">No point selected</div>
+    <button id="calculate" disabled>Calculate connection</button>
+    <button id="clear" class="ghost">Clear point and connection</button>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">03 / PERSISTENCE</div>
+    <h2>Save or restore a study</h2>
+    <label for="study-code">Study code</label>
+    <input id="study-code" placeholder="e.g. DEMO-APP-001" maxlength="64" autocomplete="off">
+    <div class="two-buttons"><button id="save" disabled>Save study</button><button id="restore" disabled class="secondary">Restore</button></div>
+    <button id="list" class="ghost" disabled>List saved studies</button>
+    <div id="study-list" class="study-list" aria-label="Saved studies"></div>
+  </section>
+</aside>
+<section class="workspace">
+  <div class="map-wrap">
+    <div id="map" aria-label="Interactive map with fictional distribution network"></div>
+    <div class="map-badge">OpenStreetMap + OpenLayers</div>
+    <div class="legend">
+      <div><span class="line blue"></span> Fictional network</div>
+      <div><span class="dot red"></span> Selected point</div>
+      <div><span class="dot orange"></span> Connection point</div>
+      <div><span class="line magenta"></span> Connection line</div>
+    </div>
+  </div>
+  <section class="bottom">
+    <div class="panel results">
+      <div class="eyebrow">CONNECTION DETAILS</div>
+      <div class="metrics">
+        <div><small>Feeder</small><strong id="metric-feeder">—</strong></div>
+        <div><small>Phase</small><strong id="metric-phase">—</strong></div>
+        <div><small>Distance</small><strong id="metric-distance">—</strong></div>
+        <div><small>Study status</small><strong id="metric-state">Waiting</strong></div>
+      </div>
+    </div>
+    <div id="messages" class="notifications" role="status" aria-live="polite">Choose a fictional feeder to begin.</div>
+  </section>
+</section>
+</main>
+<footer>Campinas Energy App · Fictional demonstration · Spatial calculations do not constitute electrical engineering approval</footer>
+</body>
+</html>
