@@ -1,0 +1,22 @@
+name: Synthetic integration tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          environment-name: campinas-energy-app
+          cache-environment: true
+      - name: Run automated tests
+        shell: micromamba-shell {0}
+        run: python -m pytest -v
+      - name: Verify HTTP persistence after FastAPI restart
+        shell: micromamba-shell {0}
+        run: python verify_restart.py
