@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+*.gpkg
+*.sqlite
+*.sqlite3
+studies.db
+data/*
+!data/.gitkeep

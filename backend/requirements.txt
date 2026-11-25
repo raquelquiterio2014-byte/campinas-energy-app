@@ -1,0 +1,5 @@
+fastapi[standard]
+gdal
+pytest
+shapely>=2.2,<3
+pyproj>=3.8,<4
