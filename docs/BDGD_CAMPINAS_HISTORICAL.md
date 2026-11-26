@@ -107,3 +107,55 @@ verified.
 A point-to-network geometric distance on historical BDGD is **not**
 proof of power availability, technical feasibility, approval of electrical
 connection, or current real-world topology.
+
+## Automated IBGE download (recommended)
+
+The public **2024 São Paulo municipality ZIP** is confirmed on the IBGE GeoFTP:
+
+https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2024/UFs/SP/SP_Municipios_2024.zip
+
+From the repository root in a GDAL-enabled Conda environment:
+
+```bash
+python tools/download_ibge_campinas.py
+ogrinfo -so backend/data/campinas_ibge_boundary.gpkg municipio
+```
+
+The script downloads the official ZIP on **your machine**, extracts only the
+Campinas municipal polygon (`CD_MUN=3509502`), creates the local boundary
+GeoPackage and records the source archive SHA-256. It refuses to overwrite
+existing files. This command has **not been executed in the assistant environment**
+(network access to the source file is unavailable there).
+
+## Download CPFL Paulista GDB
+
+The publicly indexed 2022 CPFL Paulista dataset page is:
+
+https://hub.arcgis.com/datasets/7990de7f137e4e49857b48f18e633558
+
+Use the page's **Download** control to obtain the File Geodatabase if the
+item permits downloading. The ANEEL BDGD catalog links to the ArcGIS Open Data
+repository where distributors' Geodatabases are published; verify if a
+newer year-specific CPFL Paulista file is available before choosing 2022.
+
+Keep the extracted `.gdb` locally, for example in `backend/data/source/`.
+Do not commit it or publish its contents without reviewing the applicable
+terms. The 2022 ArcGIS Hub item shows no explicit license, while the general
+ANEEL BDGD catalog is marked ODbL; applicability to the exact item requires
+confirmation.
+
+After obtaining the GDB, run:
+
+```bash
+ogrinfo -so -al "backend/data/source/CPFL_PAULISTA.gdb"
+python tools/import_bdgd_campinas.py \\
+  --source "backend/data/source/CPFL_PAULISTA.gdb" \\
+  --boundary "backend/data/campinas_ibge_boundary.gpkg" \\
+  --year 2022 \\
+  --source-url "https://hub.arcgis.com/datasets/7990de7f137e4e49857b48f18e633558"
+```
+
+Replace the GDB folder name and reference year with the downloaded file's
+actual identity. Report errors and exact feature counts before adding a layer
+toggle to the application. No historical network feature counts have yet been
+verified.
