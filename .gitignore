@@ -7,3 +7,9 @@ __pycache__/
 *.db-*
 .env
 .venv/
+
+# Locally imported historical public datasets and provenance sidecars
+*.gdb/
+*.metadata.json
+*.geojson
+*.zip
