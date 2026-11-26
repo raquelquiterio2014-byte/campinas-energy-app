@@ -40,3 +40,7 @@ The generator refuses to overwrite existing GeoPackages. Run it only once unless
 - `VALIDATION_STATUS.md`: evidence and outstanding checks
 
 **Data policy:** This repository is intended for synthetic demonstrations. No company repository, operational feeder dataset, real network identifier or production database is included. GIS results are illustrative, not electrical engineering approval.
+
+## Historical public-data research (ANEEL BDGD)
+
+The separate **historical CPFL Paulista / Campinas** importer is documented in [Historical BDGD Campinas](docs/BDGD_CAMPINAS_HISTORICAL.md). It clips an officially downloaded GDB against the IBGE municipal boundary, writes a local versioned snapshot with provenance and does **not** change the synthetic demo network. The historical layer has **not yet been populated** from an official GDB or connected to the application's map.
