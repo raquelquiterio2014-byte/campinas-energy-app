@@ -46,6 +46,16 @@ def validate_boundary(path: Path) -> None:
         ogr.wkbPolygon, ogr.wkbMultiPolygon, ogr.wkbPolygon25D, ogr.wkbMultiPolygon25D
     ):
         raise ValueError("Boundary must contain a nonempty polygon or multipolygon")
+    # Reject a polygon identified as another municipality.
+    known_codes = ("CD_MUN", "CD_GEOCMU", "cd_geocmu", "codigo_ibge", "ibge_code")
+    for name in known_codes:
+        if feature.GetFieldIndex(name) >= 0:
+            code = str(feature.GetField(name))
+            if code != "3509502":
+                raise ValueError(f"Boundary is not Campinas (IBGE 3509502): {code}")
+            break
+    else:
+        raise ValueError("Boundary must contain an IBGE municipality-code field (e.g. CD_MUN=3509502)")
     spatial_ref = layer.GetSpatialRef()
     if spatial_ref is None:
         raise ValueError("Boundary layer must have a coordinate reference system")
@@ -76,7 +86,6 @@ def import_layer(source: Path, boundary: Path, output: Path, year: int,
         "-t_srs", "EPSG:4326",
         "-nln", "historical_ssdmt",
         "-lco", "SPATIAL_INDEX=YES",
-        "-skipfailures",
     ]
     try:
         subprocess.run(cmd, check=True, capture_output=True, text=True)
