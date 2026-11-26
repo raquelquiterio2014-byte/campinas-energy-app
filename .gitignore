@@ -13,3 +13,5 @@ __pycache__/
 *.metadata.json
 *.geojson
 *.zip
+
+*.source.json
