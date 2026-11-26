@@ -53,3 +53,14 @@ The user demonstrated the application in a local browser at `127.0.0.1:8000/app/
 4. Following the prior stop/restart instruction, restored study `CAMP-TEST-001`: UI displayed `Study CAMP-TEST-001 restored from SQLite, including the original point and connection line.` and status **Restored**, with **phase ABC**, **0.204 km** and geometry overlay visible.
 
 These are **manual visual observations** based on user-provided screenshots. The screenshot image binaries are not committed to this repository. The screenshot alone does not independently document the terminal's shutdown/restart commands, compare exact geometry JSON, or establish automated test passing. The dedicated `verify_restart.py` and Pytest suite remain to be executed and their output recorded.
+
+## Historical BDGD Campinas workstream — 2026-11-25
+
+- ANEEL BDGD catalog and CPFL Paulista 2022-12-31 ArcGIS Hub item identified; no actual GDB downloaded yet.
+- Historical importer implemented in `tools/import_bdgd_campinas.py`.
+- Uses an IBGE Campinas boundary polygon identified by municipality code `3509502`; clips SSDMT into `historical_ssdmt` in an isolated local GeoPackage.
+- Local provenance sidecar records source/date, count, CRS and SHA-256.
+- Sample import and invalid-municipality tests in `tests/test_historical_bdgd.py`.
+- CI run https://github.com/raquelquiterio2014-byte/campinas-energy-app/actions/runs/45728900385 **completed successfully** after these synthetic tests were committed.
+- No real public BDGD geometries were imported or added to the live UI yet; source GDB availability/licensing still needs verification.
+- Technical guide: `docs/BDGD_CAMPINAS_HISTORICAL.md`.
